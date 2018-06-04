@@ -1,4 +1,4 @@
-package sword4offer.chpater4;
+package sword4offer.chapter4;
 
 // 注意：树是二叉搜索树
 

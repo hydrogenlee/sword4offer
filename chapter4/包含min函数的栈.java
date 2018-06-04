@@ -1,4 +1,4 @@
-package sword4offer.chpater4;
+package sword4offer.chapter4;
 
 import java.util.Stack;
 
