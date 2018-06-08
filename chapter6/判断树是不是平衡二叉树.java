@@ -2,6 +2,13 @@ package sword4offer.chapter6;
 
 public class 判断树是不是平衡二叉树 {
     public static void main(String[] args) {
+        //          _______1______
+        //         /              \
+        //     ___2__              3_
+        //    /      \               \
+        //   4      _5                6
+        //         /
+        //        7
         TreeNode root = new TreeNode(1);
         root.left = new TreeNode(2);
         root.right = new TreeNode(3);
@@ -11,6 +18,15 @@ public class 判断树是不是平衡二叉树 {
         root.left.right.left = new TreeNode(7);
         System.out.println(isBalancedTree(root));
         System.out.println("------------------");
+        //          _______1______
+        //         /              \
+        //     ___2__              3_
+        //    /      \               \
+        //   4      _5                6
+        //         /
+        //       _7
+        //      /
+        //     8
         root = new TreeNode(1);
         root.left = new TreeNode(2);
         root.right = new TreeNode(3);
