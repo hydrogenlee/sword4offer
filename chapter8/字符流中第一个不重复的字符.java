@@ -4,16 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class 字符流中第一个不重复的字符 {
-    private static Map<Character, Integer> map;
-    private static int index;
-
-    public 字符流中第一个不重复的字符() {
-        map = new HashMap<>();
-        index = 0;
-    }
-
     public static void main(String[] args){
-        字符流中第一个不重复的字符 solution = new 字符流中第一个不重复的字符();
+        Solution solution = new 字符流中第一个不重复的字符().new Solution();
+
         solution.insert('g');
         System.out.println(solution.firstAppearingOnce());   // 'g'
         solution.insert('o');
@@ -28,27 +21,31 @@ public class 字符流中第一个不重复的字符 {
         System.out.println(solution.firstAppearingOnce());   // 'l'
     }
 
-    //Insert one char from stringstream
-    public void insert(char ch) {
-        if (map.containsKey(ch)) {
-            // 出现多次时置-1
-            map.put(ch, -1);
-        } else {
-            map.put(ch, index++);
-        }
-    }
-    //return the first appearence once char in current stringstream
-    public char firstAppearingOnce() {
-        char result = '#';
-        int max = Integer.MAX_VALUE;
+    class Solution {
+        private Map<Character, Integer> map = new HashMap<>();
+        private int index = 0;
 
-        for (Map.Entry<Character, Integer> entry : map.entrySet()) {
-            if (entry.getValue() != -1 && entry.getValue() < max) {
-                max = entry.getValue();
-                result = entry.getKey();
+        //插入一个字符
+        public void insert(char ch) {
+            if (map.containsKey(ch)) {
+                // 出现多次时置-1
+                map.put(ch, -1);
+            } else {
+                map.put(ch, index++);
             }
         }
+        // 获取字符流中第一个只出现一次的字符
+        public char firstAppearingOnce() {
+            char result = '#';
+            int max = Integer.MAX_VALUE;
 
-        return result;
+            for (Map.Entry<Character, Integer> entry : map.entrySet()) {
+                if (entry.getValue() != -1 && entry.getValue() < max) {
+                    max = entry.getValue();
+                    result = entry.getKey();
+                }
+            }
+            return result;
+        }
     }
 }

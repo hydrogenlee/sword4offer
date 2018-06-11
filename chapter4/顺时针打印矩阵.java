@@ -4,7 +4,8 @@ import java.util.ArrayList;
 
 public class 顺时针打印矩阵 {
     public static void main(String[] args) {
-        ArrayList<Integer> result = printMatrix(new int[][]{
+        Solution solution = new 顺时针打印矩阵().new Solution();
+        ArrayList<Integer> result = solution.printMatrix(new int[][]{
                 { 1,  2,  3,  4},
                 { 5,  6,  7,  8},
                 { 9, 10, 11, 12},
@@ -16,7 +17,7 @@ public class 顺时针打印矩阵 {
         }
         System.out.println();
 
-        result = printMatrix(new int[][]{
+        result = solution.printMatrix(new int[][]{
                 { 1,  2,  3},
                 { 4,  5,  6},
                 { 7,  8,  9},
@@ -28,14 +29,14 @@ public class 顺时针打印矩阵 {
         }
         System.out.println();
 
-        result = printMatrix(new int[][]{{1}});
+        result = solution.printMatrix(new int[][]{{1}});
         // 1
         for (int i = 0; i < result.size(); i++) {
             System.out.printf(result.get(i) + " ");
         }
         System.out.println();
 
-        result = printMatrix(new int[][]{{1},{2},{3},{4},{5}});
+        result = solution.printMatrix(new int[][]{{1},{2},{3},{4},{5}});
         // 1 2 3 4 5
         for (int i = 0; i < result.size(); i++) {
             System.out.printf(result.get(i) + " ");
@@ -43,24 +44,85 @@ public class 顺时针打印矩阵 {
         System.out.println();
     }
 
-    public static ArrayList<Integer> printMatrix(int [][] matrix) {
-        if (matrix == null || matrix.length == 0) {
-            return new ArrayList<>();
+    class Solution {
+        public ArrayList<Integer> printMatrix(int [][] matrix) {
+            if (matrix == null || matrix.length == 0) {
+                return new ArrayList<>();
+            }
+            ArrayList<Integer> result = new ArrayList<>();
+
+            int leftCornerRow = 0;
+            int leftCornerCol = 0;
+            int rightCornerRow = matrix.length - 1;
+            int rightCornerCol = matrix[0].length - 1;
+
+            while (leftCornerRow <= rightCornerRow && leftCornerCol <= rightCornerCol) {
+                // 只剩下一行
+                if (leftCornerRow == rightCornerRow) {
+                    for (int i = leftCornerCol; i <= rightCornerCol; i++) {
+                        result.add(matrix[leftCornerRow][i]);
+                    }
+                    break;
+                }
+
+                // 只剩下一列
+                if (leftCornerCol == rightCornerCol) {
+                    for (int i = leftCornerRow; i <= rightCornerRow; i++) {
+                        result.add(matrix[i][leftCornerCol]);
+                    }
+                    break;
+                }
+
+                // 打印上面的几个
+                for (int i = leftCornerCol; i < rightCornerCol; i++) {
+                    result.add(matrix[leftCornerRow][i]);
+                }
+                // 打印右边的几个
+                for (int i = leftCornerRow; i < rightCornerRow; i++) {
+                    result.add(matrix[i][rightCornerCol]);
+                }
+                // 打印下面的几个
+                for (int i = rightCornerCol; i > leftCornerCol; i--) {
+                    result.add(matrix[rightCornerRow][i]);
+                }
+
+                // 打印左边的几个
+                for (int i = rightCornerRow; i > leftCornerRow ; i--) {
+                    result.add(matrix[i][leftCornerCol]);
+                }
+
+                leftCornerRow++;
+                leftCornerCol++;
+                rightCornerRow--;
+                rightCornerCol--;
+            }
+            return result;
         }
-        ArrayList<Integer> result = new ArrayList<>();
 
-        int leftCornerRow = 0;
-        int leftCornerCol = 0;
-        int rightCornerRow = matrix.length - 1;
-        int rightCornerCol = matrix[0].length - 1;
+        public ArrayList<Integer> printMatrixRecursive(int [][] matrix) {
+            if (matrix == null || matrix.length == 0) {
+                return new ArrayList<>();
+            }
+            ArrayList<Integer> result = new ArrayList<>();
 
-        while (leftCornerRow <= rightCornerRow && leftCornerCol <= rightCornerCol) {
+            doRecursive(matrix, result, 0, 0,
+                    matrix.length - 1, matrix[0].length - 1);
+
+            return result;
+        }
+
+        private void doRecursive(int[][] matrix, ArrayList<Integer> result,
+                                        int leftCornerRow, int leftCornerCol,
+                                        int rightCornerRow, int rightCornerCol) {
+            if (leftCornerRow > rightCornerRow || leftCornerCol > rightCornerCol) {
+                return;
+            }
             // 只剩下一行
             if (leftCornerRow == rightCornerRow) {
                 for (int i = leftCornerCol; i <= rightCornerCol; i++) {
                     result.add(matrix[leftCornerRow][i]);
                 }
-                break;
+                return;
             }
 
             // 只剩下一列
@@ -68,7 +130,7 @@ public class 顺时针打印矩阵 {
                 for (int i = leftCornerRow; i <= rightCornerRow; i++) {
                     result.add(matrix[i][leftCornerCol]);
                 }
-                break;
+                return;
             }
 
             // 打印上面的几个
@@ -83,72 +145,13 @@ public class 顺时针打印矩阵 {
             for (int i = rightCornerCol; i > leftCornerCol; i--) {
                 result.add(matrix[rightCornerRow][i]);
             }
-
             // 打印左边的几个
             for (int i = rightCornerRow; i > leftCornerRow ; i--) {
                 result.add(matrix[i][leftCornerCol]);
             }
 
-            leftCornerRow++;
-            leftCornerCol++;
-            rightCornerRow--;
-            rightCornerCol--;
+            doRecursive(matrix, result, ++leftCornerRow,
+                    ++leftCornerCol, --rightCornerRow, --rightCornerCol);
         }
-        return result;
-    }
-
-    public static ArrayList<Integer> printMatrixRecursive(int [][] matrix) {
-        if (matrix == null || matrix.length == 0) {
-            return new ArrayList<>();
-        }
-        ArrayList<Integer> result = new ArrayList<>();
-
-        doRecursive(matrix, result, 0, 0,
-                matrix.length - 1, matrix[0].length - 1);
-
-        return result;
-    }
-
-    private static void doRecursive(int[][] matrix, ArrayList<Integer> result,
-                                    int leftCornerRow, int leftCornerCol,
-                                    int rightCornerRow, int rightCornerCol) {
-        if (leftCornerRow > rightCornerRow || leftCornerCol > rightCornerCol) {
-            return;
-        }
-        // 只剩下一行
-        if (leftCornerRow == rightCornerRow) {
-            for (int i = leftCornerCol; i <= rightCornerCol; i++) {
-                result.add(matrix[leftCornerRow][i]);
-            }
-            return;
-        }
-
-        // 只剩下一列
-        if (leftCornerCol == rightCornerCol) {
-            for (int i = leftCornerRow; i <= rightCornerRow; i++) {
-                result.add(matrix[i][leftCornerCol]);
-            }
-            return;
-        }
-
-        // 打印上面的几个
-        for (int i = leftCornerCol; i < rightCornerCol; i++) {
-            result.add(matrix[leftCornerRow][i]);
-        }
-        // 打印右边的几个
-        for (int i = leftCornerRow; i < rightCornerRow; i++) {
-            result.add(matrix[i][rightCornerCol]);
-        }
-        // 打印下面的几个
-        for (int i = rightCornerCol; i > leftCornerCol; i--) {
-            result.add(matrix[rightCornerRow][i]);
-        }
-        // 打印左边的几个
-        for (int i = rightCornerRow; i > leftCornerRow ; i--) {
-            result.add(matrix[i][leftCornerCol]);
-        }
-
-        doRecursive(matrix, result, ++leftCornerRow,
-                ++leftCornerCol, --rightCornerRow, --rightCornerCol);
     }
 }

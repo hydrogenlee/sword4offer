@@ -1,5 +1,7 @@
 package sword4offer.chapter8;
 
+import sword4offer.util.TreeNode;
+
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.Queue;
@@ -19,7 +21,9 @@ public class 把二叉树打印成多行 {
         root.right.left = new TreeNode(9);
         root.right.right = new TreeNode(11);
 
-        ArrayList<ArrayList<Integer>> result = print(root);
+        Solution solution = new 把二叉树打印成多行().new Solution();
+
+        ArrayList<ArrayList<Integer>> result = solution.print(root);
         for (ArrayList<Integer> list : result) {
             for (Integer i: list) {
                 System.out.printf(i + " ");
@@ -28,48 +32,38 @@ public class 把二叉树打印成多行 {
         }
     }
 
-
-    // 通过null来分层
-    public static ArrayList<ArrayList<Integer>> print(TreeNode pRoot) {
-        if (pRoot == null) {
-            return new ArrayList<>();
-        }
-        ArrayList<ArrayList<Integer>> result = new ArrayList<>();
-        ArrayList<Integer> item = new ArrayList<>();
-        Queue<TreeNode> queue = new LinkedList<>();
-        queue.add(pRoot);
-        queue.add(null);
-        while (!queue.isEmpty()) {
-            TreeNode head = queue.poll();
-            if (head == null) {
-                result.add(new ArrayList<>(item));
-                item.clear();
-                queue.add(null);
-                if (queue.size() == 1) {
-                    // 说明只有一个null了，防止一直循环
-                    break;
+    class Solution {
+        // 通过null来分层
+        public ArrayList<ArrayList<Integer>> print(TreeNode pRoot) {
+            if (pRoot == null) {
+                return new ArrayList<>();
+            }
+            ArrayList<ArrayList<Integer>> result = new ArrayList<>();
+            ArrayList<Integer> item = new ArrayList<>();
+            Queue<TreeNode> queue = new LinkedList<>();
+            queue.add(pRoot);
+            queue.add(null);
+            while (!queue.isEmpty()) {
+                TreeNode head = queue.poll();
+                if (head == null) {
+                    result.add(new ArrayList<>(item));
+                    item.clear();
+                    queue.add(null);
+                    if (queue.size() == 1) {
+                        // 说明只有一个null了，防止一直循环
+                        break;
+                    }
+                    continue;
                 }
-                continue;
+                item.add(head.val);
+                if (head.left != null) {
+                    queue.add(head.left);
+                }
+                if (head.right != null) {
+                    queue.add(head.right);
+                }
             }
-            item.add(head.val);
-            if (head.left != null) {
-                queue.add(head.left);
-            }
-            if (head.right != null) {
-                queue.add(head.right);
-            }
-        }
-        return result;
-    }
-
-
-    private static class TreeNode {
-        int val = 0;
-        TreeNode left = null;
-        TreeNode right = null;
-
-        public TreeNode(int val) {
-            this.val = val;
+            return result;
         }
     }
 }

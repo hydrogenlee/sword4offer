@@ -1,5 +1,8 @@
 package sword4offer.chapter8;
 
+
+import sword4offer.util.TreeLinkNode;
+
 public class 二叉树的下一个节点 {
     public static void main(String[] args) {
         //         _______1______
@@ -30,49 +33,41 @@ public class 二叉树的下一个节点 {
         node9.next = node5;
 
         TreeLinkNode result;
+        Solution solution = new 二叉树的下一个节点().new Solution();
 
-        System.out.println((result = getNext(node1)) == null ? "null" : result.val);             // 6
-        System.out.println((result = getNext(node2)) == null ? "null" : result.val);             // 8
-        System.out.println((result = getNext(node3)) == null ? "null" : result.val);             // 7
-        System.out.println((result = getNext(node4)) == null ? "null" : result.val);             // 2
-        System.out.println((result = getNext(node5)) == null ? "null" : result.val);             // 9
-        System.out.println((result = getNext(node6)) == null ? "null" : result.val);             // 3
-        System.out.println((result = getNext(node7)) == null ? "null" : result.val);             // null
-        System.out.println((result = getNext(node8)) == null ? "null" : result.val);             // 5
-        System.out.println((result = getNext(node9)) == null ? "null" : result.val);             // 1
+        System.out.println((result = solution.getNext(node1)) == null ? "null" : result.val);             // 6
+        System.out.println((result = solution.getNext(node2)) == null ? "null" : result.val);             // 8
+        System.out.println((result = solution.getNext(node3)) == null ? "null" : result.val);             // 7
+        System.out.println((result = solution.getNext(node4)) == null ? "null" : result.val);             // 2
+        System.out.println((result = solution.getNext(node5)) == null ? "null" : result.val);             // 9
+        System.out.println((result = solution.getNext(node6)) == null ? "null" : result.val);             // 3
+        System.out.println((result = solution.getNext(node7)) == null ? "null" : result.val);             // null
+        System.out.println((result = solution.getNext(node8)) == null ? "null" : result.val);             // 5
+        System.out.println((result = solution.getNext(node9)) == null ? "null" : result.val);             // 1
     }
 
-    public  static TreeLinkNode getNext(TreeLinkNode pNode) {
-        if (pNode == null) {
-            throw new IllegalArgumentException("节点不能为null");
-        }
-        // 如果有右节点，那么下一个节点就是其右子树最左边的孩子
-        // 如果其右节点的左孩子为空，那就返回其右节点
-        if (pNode.right != null) {
-            pNode = pNode.right;
-            while (pNode.left != null) {
-                pNode = pNode.left;
+    class Solution {
+        public TreeLinkNode getNext(TreeLinkNode pNode) {
+            if (pNode == null) {
+                throw new IllegalArgumentException("节点不能为null");
             }
-            return pNode;
-        }
+            // 如果有右节点，那么下一个节点就是其右子树最左边的孩子
+            // 如果其右节点的左孩子为空，那就返回其右节点
+            if (pNode.right != null) {
+                pNode = pNode.right;
+                while (pNode.left != null) {
+                    pNode = pNode.left;
+                }
+                return pNode;
+            }
 
-        // 如果右节点为空，往上回溯，直到当前节点是其父节点的左孩子，
-        // 如果到达根节点也没有找到（其实是二叉树最右边的那个节点），返回null
-        while (pNode.next != null && pNode.next.left != pNode) {
-            pNode = pNode.next;
-        }
-        // 注意：这里也包括当前节点是根节点，并且根节点的右子树为空的情况
-        return pNode.next;
-    }
-
-    private static class TreeLinkNode {
-        int val;
-        TreeLinkNode left = null;
-        TreeLinkNode right = null;
-        TreeLinkNode next = null;
-
-        TreeLinkNode(int val) {
-            this.val = val;
+            // 如果右节点为空，往上回溯，直到当前节点是其父节点的左孩子，
+            // 如果到达根节点也没有找到（其实是二叉树最右边的那个节点），返回null
+            while (pNode.next != null && pNode.next.left != pNode) {
+                pNode = pNode.next;
+            }
+            // 注意：这里也包括当前节点是根节点，并且根节点的右子树为空的情况
+            return pNode.next;
         }
     }
 }

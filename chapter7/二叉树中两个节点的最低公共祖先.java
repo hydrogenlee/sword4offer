@@ -1,5 +1,7 @@
 package sword4offer.chapter7;
 
+import sword4offer.util.TreeNode;
+
 import java.util.Stack;
 
 public class 二叉树中两个节点的最低公共祖先 {
@@ -24,58 +26,51 @@ public class 二叉树中两个节点的最低公共祖先 {
         root.right.left = new TreeNode(0);
         root.right.right = new TreeNode(8);
 
+        Solution solution = new 二叉树中两个节点的最低公共祖先().new Solution();
         // 默认root不为空
-        System.out.println(lowestCommonAncestor(root, root.left, root.right).val);              // 5 和 1, 结果为3
-        System.out.println(lowestCommonAncestor(root, root.left, root.left.right.right).val);   // 5 和 4, 结果为5
+        System.out.println(solution.lowestCommonAncestor(root, root.left, root.right).val);              // 5 和 1, 结果为3
+        System.out.println(solution.lowestCommonAncestor(root, root.left, root.left.right.right).val);   // 5 和 4, 结果为5
     }
 
-    public static TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
-        if (root == null) {
-            return null;
-        }
-
-        Stack<TreeNode> nodePathOfP = getNodePath(root, p);
-        Stack<TreeNode> nodePathOfQ = getNodePath(root, q);
-
-        TreeNode common = null;
-        while (!nodePathOfP.isEmpty() && !nodePathOfQ.isEmpty()) {
-            TreeNode tempP = nodePathOfP.pop();
-            TreeNode tempQ = nodePathOfQ.pop();
-            if (tempP != tempQ) {
-                break;
-            } else {
-                common = tempP;
+    class Solution {
+        public TreeNode lowestCommonAncestor(TreeNode root, TreeNode p, TreeNode q) {
+            if (root == null) {
+                return null;
             }
-        }
-        return common;
-    }
 
-    private static Stack<TreeNode> getNodePath(TreeNode root, TreeNode node) {
-        if (root == null) {
-            return null;
-        }
-        if (root.val == node.val) {
-            Stack<TreeNode> result = new Stack<>();
-            result.push(node);
-            return result;
-        }
-        Stack<TreeNode> temp;
-        if ((temp = getNodePath(root.left, node)) == null) {
-            temp = getNodePath(root.right, node);       // 也可能等于0
-        }
-        if (temp != null) {
-            temp.push(root);
-        }
-        return temp;
-    }
+            Stack<TreeNode> nodePathOfP = getNodePath(root, p);
+            Stack<TreeNode> nodePathOfQ = getNodePath(root, q);
 
-    private static class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
+            TreeNode common = null;
+            while (!nodePathOfP.isEmpty() && !nodePathOfQ.isEmpty()) {
+                TreeNode tempP = nodePathOfP.pop();
+                TreeNode tempQ = nodePathOfQ.pop();
+                if (tempP != tempQ) {
+                    break;
+                } else {
+                    common = tempP;
+                }
+            }
+            return common;
+        }
 
-        TreeNode(int x) {
-            val = x;
+        private Stack<TreeNode> getNodePath(TreeNode root, TreeNode node) {
+            if (root == null) {
+                return null;
+            }
+            if (root.val == node.val) {
+                Stack<TreeNode> result = new Stack<>();
+                result.push(node);
+                return result;
+            }
+            Stack<TreeNode> temp;
+            if ((temp = getNodePath(root.left, node)) == null) {
+                temp = getNodePath(root.right, node);       // 也可能等于0
+            }
+            if (temp != null) {
+                temp.push(root);
+            }
+            return temp;
         }
     }
 }
