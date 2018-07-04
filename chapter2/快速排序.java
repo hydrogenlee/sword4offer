@@ -17,14 +17,8 @@ public class 快速排序 {
             }
 
             int[] index = partition(arr, start, end);
-            // 说明有小于区
-            if (index[0] != start - 1) {
-                quickQuick(arr, start, index[0]);
-            }
-            // 说明有大于区
-            if (index[1] != end + 1) {
-                quickQuick(arr, index[1], end);
-            }
+            quickQuick(arr, start, index[0]);
+            quickQuick(arr, index[1], end);
 
         }
 
