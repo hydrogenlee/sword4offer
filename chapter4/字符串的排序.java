@@ -18,18 +18,16 @@ public class 字符串的排序 {
                 return new ArrayList<>();
             }
 
-            char[] array = str.toCharArray();
             ArrayList<String> result = new ArrayList<>();
 
-            doPermutation(result, new StringBuilder(), array, 0);
+            doPermutation(result, str.toCharArray(), 0);
             Collections.sort(result); // 对结果排序
             return result;
         }
 
-        private void doPermutation(ArrayList<String> result, StringBuilder sb,
-                                          char[] array, int start) {
+        private void doPermutation(ArrayList<String> result, char[] array, int start) {
             if (start == array.length) {
-                String s = sb.toString();
+                String s = String.valueOf(array);
                 // 去重
                 if (!result.contains(s)) {
                     result.add(s);
@@ -39,23 +37,16 @@ public class 字符串的排序 {
 
             for (int i = start; i < array.length; i++) {
                 // 先交换
-                if (i != start) {
-                    // swap
-                    swap(array, start, i);
-                }
-                doPermutation(result, sb.append(array[start]), array, start + 1);
-                sb.delete(sb.length() - 1, sb.length());
+                swap(array, start, i);
+                doPermutation(result, array, start + 1);
                 // 再交换回去
-                if (i != start) {
-                    // swap
-                    swap(array, i, start);
-                }
+                swap(array, i, start);
             }
         }
 
         private void swap(char[] array, int index1, int index2) {
             if (array == null || index1 < 0 || index1 >= array.length ||
-                    index2 < 0 || index2 >= array.length) {
+                    index2 < 0 || index2 >= array.length || index1 == index2) {
                 return;
             }
 

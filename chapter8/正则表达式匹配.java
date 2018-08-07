@@ -48,7 +48,7 @@ public class 正则表达式匹配 {
             // 分为几种情况，匹配0个，匹配1个和匹配多个
             return  doMatch(str, pattern, strEnd, patternEnd - 2) ||                           // 匹配0个
                     ((str[strEnd] == pattern[patternEnd - 1] || pattern[patternEnd - 1] == '.') &&       // 判断前一个字符是否符合条件
-                            (doMatch(str, pattern, strEnd - 1, patternEnd - 1) ||       // 匹配1个
+                            (doMatch(str, pattern, strEnd - 1, patternEnd - 2) ||       // 匹配1个
                                     doMatch(str, pattern, strEnd - 1, patternEnd)));              // 匹配多个
         }
     }

@@ -19,35 +19,28 @@ public class 二叉搜索树的后序遍历序列 {
         }
 
         private boolean doVerify(int[] sequence, int start, int end) {
-            if (start > end) {
-                throw new IllegalArgumentException("参数输入不正确");
+            if (start >= end) {
+                return true;
             }
-            // 检查左子树
-            int i = start;
-            for (; i < end; i++) {
-                if (sequence[i] > sequence[end]) {
-                    break;
-                }
-            }
-            // 检查右子树
-            int mid = i;
-            for (; i < end; i++) {
+
+            // 找到第一个大于sequence[end]的位置
+            int mid = start;
+            for (int i = start; i < end; i++) {
                 if (sequence[i] < sequence[end]) {
+                    mid = i;
+                } else {
                     break;
                 }
             }
-            if (i != end) {
-                return false;
+
+            // 检查后半部分是否符合要求
+            for (int i = mid + 1; i < end - 1; i++) {
+                if (sequence[i] < sequence[end]) {
+                    return false;
+                }
             }
-            boolean verifyLeft = true;
-            boolean verifyRight = true;
-            if (start < mid - 1) {
-                verifyLeft = doVerify(sequence, start, mid - 1);
-            }
-            if (mid < end - 1) {
-                verifyRight = doVerify(sequence, mid, end - 1);
-            }
-            return verifyLeft && verifyRight;
+
+            return doVerify(sequence, start, mid) && doVerify(sequence, mid + 1, end - 1);
         }
     }
 }

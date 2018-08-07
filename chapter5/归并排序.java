@@ -54,9 +54,7 @@ public class 归并排序 {
                 helper[index++] = array[rightIndex++];
             }
 
-            for (int i = 0; i < helper.length; i++) {
-                array[start + i] = helper[i];
-            }
+            System.arraycopy(helper, 0, array, start, helper.length);
         }
     }
 }

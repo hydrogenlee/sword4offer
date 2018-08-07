@@ -4,7 +4,7 @@ public class 调整数组顺序使奇数位于偶数前面 {
     public static void main(String[] args) {
         int[] array = {1, 2, 3, 4, 5};
         Solution solution = new 调整数组顺序使奇数位于偶数前面().new Solution();
-        solution.reOrderArrayWithoutChangeRelativeOrder(array);
+        solution.reOrderArrayWithInserting(array);
         for (int anArray : array) {
             System.out.print(anArray);
         }
@@ -13,6 +13,22 @@ public class 调整数组顺序使奇数位于偶数前面 {
     }
 
     class Solution {
+
+        // 不改变原来数组的相对顺序
+        // 采用插入排序的思想，不改变数组的相对熟悉
+        public void reOrderArrayWithInserting(int[] array) {
+            if (array == null || array.length <= 1) {
+                return;
+            }
+
+            for (int i = 0; i < array.length; i++) {
+                if ((array[i] & 1) == 1) {
+                    for (int k = i - 1; k >= 0 && (array[k] & 1) == 0; k--) {
+                        swap(array, k, k + 1);
+                    }
+                }
+            }
+        }
         // 不改变原来数组的相对顺序
         // 但是使用了辅助数组
         // T-C: O(N)
@@ -35,9 +51,7 @@ public class 调整数组顺序使奇数位于偶数前面 {
                 }
             }
 
-            for (int i = 0; i < array.length; i++) {
-                array[i] = temp[i];
-            }
+            System.arraycopy(temp, 0, array, 0, array.length);
         }
 
         // 相对顺序改变了
