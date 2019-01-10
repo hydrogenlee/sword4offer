@@ -22,7 +22,7 @@ public class 和为s的连续正数序列 {
 
         for (ArrayList<Integer> list : lists) {
             for (Integer i : list) {
-                System.out.printf(i + " ");
+                System.out.print(i + " ");
             }
             System.out.println();
         }

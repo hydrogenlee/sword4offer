@@ -19,7 +19,7 @@ public class 连续子数组的最大和 {
             int max = Integer.MIN_VALUE;
             int temp = 0;
             for (int i = 0; i < array.length; i++) {
-                if (temp + array[i] < array[i]) {
+                if (temp  < 0) {
                     temp = array[i];
                 } else {
                     temp += array[i];

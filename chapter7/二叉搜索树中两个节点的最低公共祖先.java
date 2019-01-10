@@ -51,10 +51,10 @@ public class 二叉搜索树中两个节点的最低公共祖先 {
                     // 如果某个节点是当前的根节点（temp），那么最低公共祖先就是此节点
                     // 或者是一个节点的值小于当前根节点（temp）的值，另一个节点大于此节点的值
                     break;
-                } else if (p.val < temp.val && q.val < temp.val) {
+                } else if (p.val < temp.val) {
                     // 往左子树查找
                     temp = temp.left;
-                } else if (p.val > temp.val && q.val > temp.val) {
+                } else if (q.val > temp.val) {
                     // 往右子树查找
                     temp = temp.right;
                 }
