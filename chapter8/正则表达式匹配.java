@@ -33,7 +33,7 @@ public class 正则表达式匹配 {
                 return false;
             }
             if (strEnd < 0) {
-                return patternEnd < 0 || (patternEnd == 1 && pattern[1] == '*'); // 表示还剩下两个字符
+                return patternEnd < 0 || (pattern[patternEnd] == '*' && doMatch(str, pattern, strEnd, patternEnd - 2));
             }
             // 不匹配
             if (str[strEnd] != pattern[patternEnd] && pattern[patternEnd] != '.' && pattern[patternEnd] != '*') {
